@@ -15,7 +15,6 @@ public class MyPanel extends JPanel implements MouseMotionListener, MouseListene
 
     public static BufferedImage bufferbackground = null;
     public static BufferedImage vaisseauj = null;
-    public static BufferedImage savej = null;
     public static BufferedImage enemy1 = null;
     public static BufferedImage enemy2 = null;
     public static BufferedImage buffer = null;
@@ -36,7 +35,6 @@ public class MyPanel extends JPanel implements MouseMotionListener, MouseListene
 
 
     public MyPanel(MyFrame frame) {
-        //setLayout(null);
         setDoubleBuffered(true);
         setVisible(true);
         posJ = new Point();
@@ -115,10 +113,9 @@ public class MyPanel extends JPanel implements MouseMotionListener, MouseListene
                     URL url = this.getClass().getClassLoader().getResource("res/boom.wav");
                     AudioInputStream audioIn = null;
                     try {
+                        assert url != null;
                         audioIn = AudioSystem.getAudioInputStream(url);
-                    } catch (UnsupportedAudioFileException ex) {
-                        ex.printStackTrace();
-                    } catch (IOException ex) {
+                    } catch (UnsupportedAudioFileException | IOException ex) {
                         ex.printStackTrace();
                     }
                     // Get a sound clip resource.
@@ -130,10 +127,9 @@ public class MyPanel extends JPanel implements MouseMotionListener, MouseListene
                     }
                     // Open audio clip and load samples from the audio input stream.
                     try {
+                        assert clip != null;
                         clip.open(audioIn);
-                    } catch (LineUnavailableException ex) {
-                        ex.printStackTrace();
-                    } catch (IOException ex) {
+                    } catch (LineUnavailableException | IOException ex) {
                         ex.printStackTrace();
                     }
                     clip.start();
@@ -161,7 +157,7 @@ public class MyPanel extends JPanel implements MouseMotionListener, MouseListene
                 }
 
         }
-        repaint();
+        //repaint();
 
     }
 
@@ -249,4 +245,6 @@ public class MyPanel extends JPanel implements MouseMotionListener, MouseListene
     public void keyReleased(KeyEvent e) {
 
     }
+
+
 }
