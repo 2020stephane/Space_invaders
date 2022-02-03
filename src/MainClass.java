@@ -1,49 +1,35 @@
-import javax.swing.*;
 import java.awt.*;
 
 public final class MainClass implements Runnable {
 
-    private static Frame frame;
+    public MainClass() {  new Thread(this).start();  }
 
-    public MainClass() {
-        //frame = new MyFrame();
-        new Thread(this).start();  }
-
-    public static void main(String[] args) {
-        javax.swing.SwingUtilities.invokeLater(MainClass::new);
-
-        //t1.start();
-
-    }
+    public static void main(String[] args) {  javax.swing.SwingUtilities.invokeLater(MainClass::new); }
 
     @Override
     public void run() {
 
-        final int DELAY = 25;
-        long beforeTime, timeDiff, sleep;
-        boolean isrunning = true;
+        final long DELAY = 1000 / 60;
+        long beforeTime;
+        long timeDiff;
+        long sleep;
         beforeTime = System.currentTimeMillis();
-        frame = new MyFrame();
-         while (isrunning) {
+        Frame frame = new MyFrame();
 
-                frame.repaint();
+        while (true) {
 
-                timeDiff = System.currentTimeMillis() - beforeTime;
-                sleep = DELAY - timeDiff;
-               if (sleep < 0) {
-                    sleep = 2;
-                }
-               try { Thread.sleep(sleep);
-               }
-               catch (InterruptedException e) {
-
-                    String msg = String.format("Thread interrupted: %s", e.getMessage());
-
-                    System.out.println( msg + "Error");
-                }
-
-                beforeTime = System.currentTimeMillis();
-         }
+            frame.repaint();
+            timeDiff = System.currentTimeMillis() - beforeTime;
+            sleep = DELAY - timeDiff;
+            if (sleep < 0) {
+                sleep = 2;
+            }
+            try {  Thread.sleep(sleep);  }
+            catch (InterruptedException e) {
+                String msg = String.format("Thread interrupted: %s", e.getMessage());
+                System.out.println( msg + "Error");
+            }
+            beforeTime = System.currentTimeMillis();
+        }
     }
-
 }
