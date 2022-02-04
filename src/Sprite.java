@@ -1,3 +1,4 @@
+import Tools.TypeSprite;
 
 public class Sprite {
 

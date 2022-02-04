@@ -1,3 +1,6 @@
+import Tools.TypeSprite;
+import sound.Sound;
+
 import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
 import javax.swing.*;
@@ -11,7 +14,7 @@ import java.util.Objects;
 public class MyPanel extends JPanel  {
 
 
-    public static int FPS = 25;
+    public static int FPS = 35;
     public static BufferedImage bufferbackground = null;
     public static BufferedImage vaisseauj = null;
     public static BufferedImage enemy1 = null;

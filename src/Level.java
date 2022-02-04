@@ -1,3 +1,6 @@
+import Tools.TypeSprite;
+import sound.Sound;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
@@ -61,7 +64,7 @@ public class Level {
     }
     private void DrawEnnemy() {
         for (int x = 1; x<=20; x++) {
-            MyPanel.myEnnemies.add(new Sprite(x * 75, 10 ,TypeSprite.ENNEMY1));
+            MyPanel.myEnnemies.add(new Sprite(x * 75, 10 , TypeSprite.ENNEMY1));
 
         }
         for (int x = 2; x<=19; x++) {

@@ -1,4 +1,8 @@
-import javax.sound.sampled.*;
+import Tools.TypeSprite;
+import sound.Sound;
+
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.event.*;
 import java.io.IOException;
 
@@ -15,7 +19,6 @@ public class EventHandler implements MouseMotionListener, MouseListener, KeyList
             } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
                 ex.printStackTrace();
             }
-
         }
     }
 
