@@ -11,7 +11,7 @@ public class EventHandler implements MouseMotionListener, MouseListener, KeyList
         if (e.getKeyChar() == ' ') {
             MyPanel.myBullets.add(new Sprite(MyPanel.posJ.x + 50, MyPanel.screen_height - 120, TypeSprite.BULLET));
             try {
-                new Sound("res/laser.wav");
+                new Sound(MyPanel.laserW);
             } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
                 ex.printStackTrace();
             }
@@ -57,7 +57,7 @@ public class EventHandler implements MouseMotionListener, MouseListener, KeyList
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        if (MyPanel.onscreen) {
+        if (MyPanel.onscreen & MyPanel.isrunning) {
             MyPanel.posJ = e.getPoint();
         }
     }

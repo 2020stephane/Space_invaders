@@ -4,15 +4,23 @@ import java.net.URL;
 
 public class Sound {
 
-    public Sound(String sound) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+    private static Clip clip = null;
 
-        URL boom = this.getClass().getClassLoader().getResource(sound);
+    public Sound(URL sound) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+
+        //URL boom = this.getClass().getClassLoader().getResource(sound);
         AudioInputStream audioIn = null;
 
-        audioIn = AudioSystem.getAudioInputStream(boom);
-        Clip clip = null;
+        audioIn = AudioSystem.getAudioInputStream(sound);
+        //Clip clip = null;
         clip = AudioSystem.getClip();
         clip.open(audioIn);
         clip.start();
+    }
+    public static void StopWave() {
+
+        clip.stop();
+        clip.flush();
+        clip.close();
     }
 }

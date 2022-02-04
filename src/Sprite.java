@@ -1,13 +1,12 @@
-import javax.sound.sampled.*;
-import java.io.IOException;
-import java.net.URL;
 
 public class Sprite {
 
     private int x;
     private int y;
     private TypeSprite sprite = null;
-    private int index = 0;
+    private double index = 0;
+    private boolean isshoot = true;
+
 
     /**
      * constructeurs
@@ -19,9 +18,14 @@ public class Sprite {
         this.x = x;
         this.y = y;
         sprite = t;
-
     }
 
+    Sprite(int x, int y, TypeSprite t, boolean shot) {
+        this.x = x;
+        this.y = y;
+        sprite = t;
+        this.isshoot = shot;
+    }
     /**
      * methodes
      */
@@ -45,26 +49,32 @@ public class Sprite {
         this.y = y;
     }
 
-    public int getIndex() {
+    public double getIndex() {
+
         return this.index;
     }
 
-    public void setIndex(int index) {
+    public void setIndex(double index) {
+
         this.index = index;
     }
 
     public TypeSprite getSpriteType() {
+
         return this.sprite;
     }
-
-    public void movSprite(boolean dir) {
-        if (dir) {
-            this.x += 5;
-        } else this.x -= 5;
+    public boolean getSpriteShot() {
+        return isshoot;
+    }
+    public void setSpriteShot(boolean shot) {
+        this.isshoot = shot;
     }
 
+    public void movSpriteR() { this.x += 2; }
+    public void movSpriteL() { this.x -= 2; }
+
     public static boolean TestColision(int i) {
-        boolean ex = false;
+        boolean setsound = false;
         for (int j = 0; j < MyPanel.myBullets.size(); j++) {
             if ((MyPanel.myBullets.get(j).getSpriteY() - MyPanel.myEnnemies.get(i).getSpriteY()) < 40 &
                     (Math.abs(MyPanel.myBullets.get(j).getSpriteX() - MyPanel.myEnnemies.get(i).getSpriteX())) < 25) {
@@ -72,10 +82,24 @@ public class Sprite {
                         MyPanel.myEnnemies.get(i).getSpriteY(), TypeSprite.EXPLOSION));
                 MyPanel.myEnnemies.remove(i);
                 MyPanel.myBullets.remove(j);
-                ex = true;
+                setsound = true;
             }
         }
-        return ex;
+        return setsound;
+    }
+    public static boolean TestColisionJ() {
+        boolean setsound = false;
+        for (int j = 0; j < MyPanel.myBulletsE.size(); j++) {
+            if ((  MyPanel.myBulletsE.get(j).getSpriteY() ) > MyPanel.screen_height - 95 &
+                    (Math.abs(MyPanel.myBulletsE.get(j).getSpriteX() - MyPanel.posJ.x)) < 50) {
+                MyPanel.myexplosionesj.add(new Sprite(MyPanel.posJ.x,
+                        MyPanel.myBulletsE.get(j).getSpriteY(), TypeSprite.EXPLOSION));
+                MyPanel.myBulletsE.remove(j);
+
+                setsound = true;
+            }
+        }
+        return setsound;
     }
 
 }

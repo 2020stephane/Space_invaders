@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.io.IOException;
 
 public final class MainClass implements Runnable {
 
@@ -9,16 +10,24 @@ public final class MainClass implements Runnable {
     @Override
     public void run() {
 
-        final long DELAY = 1000 / 60;
+        final long DELAY = 1000 / MyPanel.FPS;
         long beforeTime;
         long timeDiff;
         long sleep;
         beforeTime = System.currentTimeMillis();
-        Frame frame = new MyFrame();
+        Frame frame = null;
+        try {
+            frame = new MyFrame();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         while (true) {
 
+            assert frame != null;
             frame.repaint();
+            MyPanel.count += 1;
+            MyPanel.time += 1;
             timeDiff = System.currentTimeMillis() - beforeTime;
             sleep = DELAY - timeDiff;
             if (sleep < 0) {
