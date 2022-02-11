@@ -88,19 +88,6 @@ public class Sprite {
         }
         return setsound;
     }
-    public static boolean TestColisionJ() {
-        boolean setsound = false;
-        for (int j = 0; j < MyPanel.myBulletsE.size(); j++) {
-            if ((  MyPanel.myBulletsE.get(j).getSpriteY() ) > MyPanel.screen_height - 95 &
-                    (Math.abs(MyPanel.myBulletsE.get(j).getSpriteX() - MyPanel.posJ.x)) < 50) {
-                MyPanel.myexplosionesj.add(new Sprite(MyPanel.posJ.x,
-                        MyPanel.myBulletsE.get(j).getSpriteY(), TypeSprite.EXPLOSION));
-                MyPanel.myBulletsE.remove(j);
 
-                setsound = true;
-            }
-        }
-        return setsound;
-    }
 
 }

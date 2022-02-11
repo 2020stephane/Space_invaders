@@ -13,7 +13,8 @@ public class EventHandler implements MouseMotionListener, MouseListener, KeyList
     @Override
     public void keyTyped(KeyEvent e) {
         if (e.getKeyChar() == ' ') {
-            MyPanel.myBullets.add(new Sprite(MyPanel.posJ.x + 50, MyPanel.screen_height - 120, TypeSprite.BULLET));
+            MyPanel.myBullets.add(new Sprite(  MyPanel.joueur1.getCoord_joueur().x + 50,
+                    MyPanel.screen_height - 120, TypeSprite.BULLET));
             try {
                 new Sound(MyPanel.laserW);
             } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
@@ -25,13 +26,13 @@ public class EventHandler implements MouseMotionListener, MouseListener, KeyList
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            MyPanel.posJ.x = MyPanel.posJ.x + 15;
+
         }
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            MyPanel.posJ.x = MyPanel.posJ.x - 15;
+
         }
         if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            MyPanel.myBullets.add(new Sprite(MyPanel.posJ.x, MyPanel.screen_height - 120, TypeSprite.BULLET));
+            MyPanel.myBullets.add(new Sprite(MyPanel.joueur1.getCoord_joueur().x, MyPanel.screen_height - 100, TypeSprite.BULLET));
         }
     }
 
@@ -40,7 +41,7 @@ public class EventHandler implements MouseMotionListener, MouseListener, KeyList
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        MyPanel.myBullets.add(new Sprite(MyPanel.posJ.x, MyPanel.screen_height - 120, TypeSprite.BULLET));
+
     }
 
     @Override
@@ -61,7 +62,7 @@ public class EventHandler implements MouseMotionListener, MouseListener, KeyList
     @Override
     public void mouseMoved(MouseEvent e) {
         if (MyPanel.onscreen & MyPanel.isrunning) {
-            MyPanel.posJ = e.getPoint();
+            MyPanel.joueur1.setCoord_joueur( e.getPoint());
         }
     }
 }

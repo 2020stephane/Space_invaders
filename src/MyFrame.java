@@ -14,7 +14,6 @@ public class MyFrame extends JFrame {
         this.setSize(width, height);
         MyPanel mypanel = new MyPanel(this);
         add(mypanel,BorderLayout.CENTER);
-        getContentPane().setCursor(null);
         setVisible(true);
     }
 

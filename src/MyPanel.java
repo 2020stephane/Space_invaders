@@ -28,7 +28,8 @@ public class MyPanel extends JPanel  {
 
     public static boolean direction = true;
     public static boolean isrunning = false;
-    public static boolean joueurvisible = true;
+    public static boolean endgame = false;
+
     public static boolean onscreen = false;
 
     public static Sound mymusic;
@@ -36,13 +37,15 @@ public class MyPanel extends JPanel  {
     public static URL laserW;
     public static URL musicW;
 
-    public static Point posJ;
+
     public static int screen_width;
     public static int screen_height;
     public static int count = 0;
     public static int time = 0;
-    public static int viej = 3;
-    public static double indexj = 0;
+
+    public static int level = 1;
+
+    public static Player joueur1 = new Player();
 
     public static ArrayList<Sprite> myBullets;
     public static ArrayList<Sprite> myEnnemies;
@@ -50,7 +53,7 @@ public class MyPanel extends JPanel  {
     public static ArrayList<Sprite> myexplosiones;
     public static ArrayList<Sprite> myexplosionesj;
     public static ArrayList<BufferedImage> imgexplosion;
-    public static ArrayList<BufferedImage> imgexplosionj;
+
 
 
 
@@ -65,6 +68,7 @@ public class MyPanel extends JPanel  {
         buffer = ImageIO.read(Objects.requireNonNull
                 (MainClass.class.getResource("image/moon1.png")));
         setVisible(true);
+
    }
 
 
@@ -72,6 +76,7 @@ public class MyPanel extends JPanel  {
     public void paintComponent(Graphics g)  {
         Graphics2D g2d = (Graphics2D) g;
         if (bufferbackground == null) {
+            time = 0;
            screen_width = this.getWidth();
             screen_height = this.getHeight();
             bufferbackground = (BufferedImage) createImage(getWidth(),getHeight());
@@ -80,7 +85,7 @@ public class MyPanel extends JPanel  {
             g2d.fillRect(0,0,getWidth(),getHeight());
         }
         g2d.drawImage(bufferbackground,null,0,0);
-        if (isrunning) {
+        if (isrunning & !endgame ) {
            try {
              render(bufferbackground.createGraphics());
            } catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {e.printStackTrace(); }
@@ -89,14 +94,14 @@ public class MyPanel extends JPanel  {
             try {
                  mymusic = new Sound(musicW);
             } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) { e.printStackTrace(); }
-        if (time > 120) {  Level currentlevel = new Level(); }
+        if (time > 60) {  Level currentlevel = new Level(level); }
         }
     }
     public void render(Graphics2D g2d) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         g2d.setColor(Color.BLACK);
         g2d.fillRect(0,0,getWidth(),getHeight());
-        if (posJ.x >= screen_width - 100) {
-            posJ.x = screen_width - 100;
+        if (joueur1.getCoord_joueur().x >= screen_width - 100) {
+            joueur1.setCoord_joueurX(screen_width - 100);
         }
 
         //g2d.drawImage(buffer,0,0,null);
@@ -104,10 +109,10 @@ public class MyPanel extends JPanel  {
         g2d.drawString("x = "+ screen_width,50,500);
         g2d.drawString("y = "+ screen_height,50,525);
         g2d.drawString("time = "+ (int) (time / FPS) ,50,550);
-        g2d.drawString("vie = "+ viej ,50,575);
+        g2d.drawString("vie = "+ joueur1.getNbr_vie() ,50,575);
         g2d.drawString("images per seconde = "+ FPS ,50,600);
-        if (joueurvisible) {
-            g2d.drawImage(vaisseauj, posJ.x, screen_height - 95,null);
+        if (joueur1.isJoueurvisible()) {
+            g2d.drawImage(vaisseauj, joueur1.getCoord_joueur().x, screen_height - 95,null);
         }
 
         if (myBullets.size() != 0) {
@@ -175,21 +180,19 @@ public class MyPanel extends JPanel  {
 
             }
 
+        } else {
+            endgame = true;
+            level +=1;
         }
-        if (Sprite.TestColisionJ()) {
+        if (joueur1.TestColision()) {
             new Sound(boomW);
-            viej -= 1;
-            joueurvisible = false;
-        }
-        if ( ! joueurvisible ) {
-            g2d.drawImage(imgexplosionj.get((int) indexj), myexplosionesj.get(0).getSpriteX(),
-                    myexplosionesj.get(0).getSpriteY(), null);
-            indexj += 0.5;
-            if (indexj == 12) {
-                myexplosionesj.remove(0);
-                joueurvisible = true;
-                indexj = 0;
+            joueur1.setNbr_vie(joueur1.getNbr_vie() - 1);
+            if (joueur1.getNbr_vie() == 0) {
+                endgame = true;
+                bufferbackground = null;
             }
+            joueur1.setJoueurvisible(false);
         }
+        joueur1.AfficheExplosion(g2d);
     }
 }
