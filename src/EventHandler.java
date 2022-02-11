@@ -1,4 +1,3 @@
-import Tools.TypeSprite;
 import sound.Sound;
 
 import javax.sound.sampled.LineUnavailableException;
@@ -14,7 +13,7 @@ public class EventHandler implements MouseMotionListener, MouseListener, KeyList
     public void keyTyped(KeyEvent e) {
         if (e.getKeyChar() == ' ') {
             MyPanel.myBullets.add(new Sprite(  MyPanel.joueur1.getCoord_joueur().x + 50,
-                    MyPanel.screen_height - 120, TypeSprite.BULLET));
+                    MyPanel.screen_height - 120));
             try {
                 new Sound(MyPanel.laserW);
             } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
@@ -24,25 +23,25 @@ public class EventHandler implements MouseMotionListener, MouseListener, KeyList
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+    public void mouseEntered(MouseEvent e) { MyPanel.onscreen = true; }
 
-        }
-        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+    @Override
+    public void mouseExited(MouseEvent e) { MyPanel.onscreen = false;  }
 
-        }
-        if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            MyPanel.myBullets.add(new Sprite(MyPanel.joueur1.getCoord_joueur().x, MyPanel.screen_height - 100, TypeSprite.BULLET));
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        if (MyPanel.onscreen & MyPanel.isrunning) {
+            MyPanel.joueur1.setCoord_joueur( e.getPoint());
         }
     }
+    @Override
+    public void keyPressed(KeyEvent e) { }
 
     @Override
     public void keyReleased(KeyEvent e) {  }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
+    public void mouseClicked(MouseEvent e) {  }
 
     @Override
     public void mousePressed(MouseEvent e) {  }
@@ -51,18 +50,5 @@ public class EventHandler implements MouseMotionListener, MouseListener, KeyList
     public void mouseReleased(MouseEvent e) {  }
 
     @Override
-    public void mouseEntered(MouseEvent e) { MyPanel.onscreen = true; }
-
-    @Override
-    public void mouseExited(MouseEvent e) { MyPanel.onscreen = false;  }
-
-    @Override
     public void mouseDragged(MouseEvent e) {   }
-
-    @Override
-    public void mouseMoved(MouseEvent e) {
-        if (MyPanel.onscreen & MyPanel.isrunning) {
-            MyPanel.joueur1.setCoord_joueur( e.getPoint());
-        }
-    }
 }

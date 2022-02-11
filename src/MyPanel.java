@@ -22,8 +22,8 @@ public class MyPanel extends JPanel  {
     public static BufferedImage buffer = null;
     public static BufferedImage bulletj = null;
     public static BufferedImage bullete = null;
-    public static BufferedImage explosion = null;
-    public static BufferedImage explosionj = null;
+    public static BufferedImage explosionE = null;
+    public static BufferedImage explosionJ = null;
     public static BufferedImage ex1 = null;
 
     public static boolean direction = true;
@@ -45,18 +45,15 @@ public class MyPanel extends JPanel  {
 
     public static int level = 1;
 
-    public static Player joueur1 = new Player();
+    public static Player joueur1;
+    public static ArrayList<Enemy> ListEnemy = new ArrayList<>();
 
     public static ArrayList<Sprite> myBullets;
     public static ArrayList<Sprite> myEnnemies;
     public static ArrayList<Sprite> myBulletsE;
     public static ArrayList<Sprite> myexplosiones;
-    public static ArrayList<Sprite> myexplosionesj;
+
     public static ArrayList<BufferedImage> imgexplosion;
-
-
-
-
 
     public MyPanel(MyFrame frame) throws IOException {
         setDoubleBuffered(true);
@@ -64,6 +61,7 @@ public class MyPanel extends JPanel  {
         addMouseListener(eh);
         addMouseMotionListener(eh);
         frame.addKeyListener(eh);
+        joueur1 = new Player();
         musicW = this.getClass().getClassLoader().getResource("sound/music.wav");
         buffer = ImageIO.read(Objects.requireNonNull
                 (MainClass.class.getResource("image/moon1.png")));
@@ -77,12 +75,11 @@ public class MyPanel extends JPanel  {
         Graphics2D g2d = (Graphics2D) g;
         if (bufferbackground == null) {
             time = 0;
-           screen_width = this.getWidth();
+            screen_width = this.getWidth();
             screen_height = this.getHeight();
             bufferbackground = (BufferedImage) createImage(getWidth(),getHeight());
             g2d = bufferbackground.createGraphics();
-            g2d.setColor(Color.BLACK);
-            g2d.fillRect(0,0,getWidth(),getHeight());
+            g2d.drawImage(buffer,0,0,null);
         }
         g2d.drawImage(bufferbackground,null,0,0);
         if (isrunning & !endgame ) {
@@ -103,18 +100,21 @@ public class MyPanel extends JPanel  {
         if (joueur1.getCoord_joueur().x >= screen_width - 100) {
             joueur1.setCoord_joueurX(screen_width - 100);
         }
-
-        //g2d.drawImage(buffer,0,0,null);
         g2d.setColor(Color.WHITE);
         g2d.drawString("x = "+ screen_width,50,500);
         g2d.drawString("y = "+ screen_height,50,525);
         g2d.drawString("time = "+ (int) (time / FPS) ,50,550);
         g2d.drawString("vie = "+ joueur1.getNbr_vie() ,50,575);
         g2d.drawString("images per seconde = "+ FPS ,50,600);
-        if (joueur1.isJoueurvisible()) {
-            g2d.drawImage(vaisseauj, joueur1.getCoord_joueur().x, screen_height - 95,null);
-        }
 
+        if (MyPanel.joueur1.isJoueurvisible()) {
+            g2d.drawImage(vaisseauj, joueur1.getCoord_joueur().x, screen_height - 95,null);
+            joueur1.TestColision();
+        } else {
+            g2d.drawImage(MyPanel.joueur1.getImage_explosion((int) MyPanel.joueur1.getIndex_image_explosion()),
+                    MyPanel.joueur1.getCoord_explosion().x,MyPanel.joueur1.getCoord_explosion().y,null);
+            joueur1.UpdateExplosion();
+        }
         if (myBullets.size() != 0) {
             for (int i = 0; i < myBullets.size(); i++) {
                 if (myBullets.get(i).getSpriteY() < 25) {
@@ -154,7 +154,7 @@ public class MyPanel extends JPanel  {
                 double ran = Math.random() * 100;
 
                 if ( ran > 30 & myEnnemies.get(i).getSpriteShot() & count > 60) {
-                     myBulletsE.add(new Sprite(myEnnemies.get(i).getSpriteX(), myEnnemies.get(i).getSpriteY(), TypeSprite.BULLET));
+                     myBulletsE.add(new Sprite(myEnnemies.get(i).getSpriteX(), myEnnemies.get(i).getSpriteY()));
                     myEnnemies.get(i).setSpriteShot(false);
                     count = 0;
                 }
@@ -177,22 +177,12 @@ public class MyPanel extends JPanel  {
                         myexplosiones.remove(i);
                     }
                 }
-
             }
 
         } else {
             endgame = true;
             level +=1;
         }
-        if (joueur1.TestColision()) {
-            new Sound(boomW);
-            joueur1.setNbr_vie(joueur1.getNbr_vie() - 1);
-            if (joueur1.getNbr_vie() == 0) {
-                endgame = true;
-                bufferbackground = null;
-            }
-            joueur1.setJoueurvisible(false);
-        }
-        joueur1.AfficheExplosion(g2d);
+
     }
 }

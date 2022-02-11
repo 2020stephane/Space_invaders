@@ -2,14 +2,12 @@ import Tools.TypeSprite;
 import sound.Sound;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class Level {
 
-    private int Score = 0;
 
     public Level(int level) {
 
@@ -19,7 +17,8 @@ public class Level {
         MyPanel.imgexplosion = new ArrayList<>();
         MyPanel.myexplosiones = new ArrayList<>();
 
-        MyPanel.myexplosionesj = new ArrayList<>();
+
+
         ImageLoader();
         Sound.StopWave();
         SoundLoader();
@@ -43,21 +42,25 @@ public class Level {
                     (MainClass.class.getResource("image/bullet1.jpg")));
             MyPanel.bullete = ImageIO.read(Objects.requireNonNull
                     (MainClass.class.getResource("image/bulletennemy.png")));
-            MyPanel.explosion = ImageIO.read(Objects.requireNonNull
+            MyPanel.explosionE = ImageIO.read(Objects.requireNonNull
                     (MainClass.class.getResource("image/explos.jpg")));
-            MyPanel.explosionj = ImageIO.read(Objects.requireNonNull
+            MyPanel.explosionJ = ImageIO.read(Objects.requireNonNull
                     (MainClass.class.getResource("image/explosionj.jpg")));
             for (int a = 0; a < 5; a++) {
-                MyPanel.imgexplosion.add(MyPanel.explosion.getSubimage(a * 43, 0, 43, 50));
+
+                MyPanel.imgexplosion.add(MyPanel.explosionE.getSubimage(a * 43, 0, 43, 50));
             }
             for (int a = 0; a < 5; a++) {
-                MyPanel.imgexplosion.add(MyPanel.explosion.getSubimage(a * 43, 50, 43, 50));
+                MyPanel.imgexplosion.add(MyPanel.explosionE.getSubimage(a * 43, 50, 43, 50));
             }
-            for (int line = 0; line < 2; line ++) {
-                for (int col = 0; col < 6; col ++) {
-                    MyPanel.joueur1.setImage_explosion(col, MyPanel.explosionj.getSubimage(
-                            col * 65, line * 70, 65, 70));
+
+            for (int col = 0; col < 6; col ++) {
+                MyPanel.joueur1.setImage_explosion(col, MyPanel.explosionJ.getSubimage(
+                           col * 65, 0, 65, 70));
                 }
+            for (int col = 6, indice = 0; col < 12 | indice < 6; col ++, indice ++) {
+                MyPanel.joueur1.setImage_explosion(col, MyPanel.explosionJ.getSubimage(
+                        indice * 65, 70, 65, 70));
             }
 
         } catch ( IOException e ) {

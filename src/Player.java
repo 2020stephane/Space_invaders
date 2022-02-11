@@ -1,5 +1,10 @@
+import sound.Sound;
+
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class Player {
 
@@ -7,8 +12,8 @@ public class Player {
     private Point coord_joueur;
     private Point coord_explosion;
     private int nbr_vie;
-    private int index_image_explosion;
-    private final BufferedImage[] image_explosion;
+    private double index_image_explosion;
+    private  BufferedImage[] image_explosion;
     //private static ArrayList<Sprite> myBullets;
 
     public Player() {
@@ -56,11 +61,11 @@ public class Player {
         this.image_explosion[i] = img;
     }
 
-    public void setIndex_image_explosion(int index_image_explosion) {
+    public void setIndex_image_explosion(double index_image_explosion) {
         this.index_image_explosion = index_image_explosion;
     }
 
-    public int getIndex_image_explosion() {
+    public double getIndex_image_explosion() {
         return index_image_explosion;
     }
 
@@ -72,31 +77,30 @@ public class Player {
         this.coord_explosion = new Point(coord_explosion.x, coord_explosion.y);
     }
 
-    public  boolean TestColision() {
+    public void TestColision() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
 
-        boolean setsound = false;
         for (int j = 0; j < MyPanel.myBulletsE.size(); j++) {
             if ((  MyPanel.myBulletsE.get(j).getSpriteY() ) > MyPanel.screen_height - 100 &
                     (Math.abs(MyPanel.myBulletsE.get(j).getSpriteX() - coord_joueur.x)) < 50) {
                 setCoord_explosion(new Point(MyPanel.myBulletsE.get(j).getSpriteX(), MyPanel.myBulletsE.get(j).getSpriteY()));
                 MyPanel.myBulletsE.remove(j);
-                setsound = true;
+                new Sound(MyPanel.boomW);
+                MyPanel.joueur1.setNbr_vie(MyPanel.joueur1.getNbr_vie() - 1);
+                if (MyPanel.joueur1.getNbr_vie() == 0) {
+                    MyPanel.endgame = true;
+                }
+                MyPanel.joueur1.setJoueurvisible(false);
                 break;
             }
         }
-        return setsound;
+
     }
-    public void AfficheExplosion(Graphics2D g2d) {
-        if ( ! MyPanel.joueur1.isJoueurvisible() ) {
+    public void UpdateExplosion() {
 
-            g2d.drawImage(MyPanel.joueur1.getImage_explosion(MyPanel.joueur1.getIndex_image_explosion()),
-                    MyPanel.joueur1.getCoord_explosion().x,MyPanel.joueur1.getCoord_explosion().y,null);
-
-            MyPanel.joueur1.setIndex_image_explosion(MyPanel.joueur1.getIndex_image_explosion() + 1);
-            if (MyPanel.joueur1.getIndex_image_explosion() == 12) {
+            MyPanel.joueur1.setIndex_image_explosion( (MyPanel.joueur1.getIndex_image_explosion() + 0.5));
+            if (MyPanel.joueur1.getIndex_image_explosion() == 11) {
                 MyPanel.joueur1.setJoueurvisible(true);
                 MyPanel.joueur1.setIndex_image_explosion(0);
             }
-        }
     }
 }

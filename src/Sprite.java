@@ -20,6 +20,11 @@ public class Sprite {
         this.y = y;
         sprite = t;
     }
+    Sprite(int x, int y) {
+        this.x = x;
+        this.y = y;
+
+    }
 
     Sprite(int x, int y, TypeSprite t, boolean shot) {
         this.x = x;
@@ -80,7 +85,7 @@ public class Sprite {
             if ((MyPanel.myBullets.get(j).getSpriteY() - MyPanel.myEnnemies.get(i).getSpriteY()) < 40 &
                     (Math.abs(MyPanel.myBullets.get(j).getSpriteX() - MyPanel.myEnnemies.get(i).getSpriteX())) < 25) {
                 MyPanel.myexplosiones.add(new Sprite(MyPanel.myEnnemies.get(i).getSpriteX(),
-                        MyPanel.myEnnemies.get(i).getSpriteY(), TypeSprite.EXPLOSION));
+                        MyPanel.myEnnemies.get(i).getSpriteY()));
                 MyPanel.myEnnemies.remove(i);
                 MyPanel.myBullets.remove(j);
                 setsound = true;
