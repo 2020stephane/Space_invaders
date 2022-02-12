@@ -26,8 +26,8 @@ public final class MainClass implements Runnable {
 
             assert frame != null;
             frame.repaint();
-            MyPanel.count += 1;
-            MyPanel.time += 1;
+            Game.setCount(Game.getCount() + 1);
+            Game.setTime(Game.getTime() + 1);
             timeDiff = System.currentTimeMillis() - beforeTime;
             sleep = DELAY - timeDiff;
             if (sleep < 0) {

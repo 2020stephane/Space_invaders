@@ -12,7 +12,7 @@ public class EventHandler implements MouseMotionListener, MouseListener, KeyList
     @Override
     public void keyTyped(KeyEvent e) {
         if (e.getKeyChar() == ' ') {
-            MyPanel.myBullets.add(new Sprite(  MyPanel.joueur1.getCoord_joueur().x + 50,
+            MyPanel.ListBulletJ.add(new Bullet(  Game.joueur1.getCoord_joueur().x + 50,
                     MyPanel.screen_height - 120));
             try {
                 new Sound(MyPanel.laserW);
@@ -30,8 +30,8 @@ public class EventHandler implements MouseMotionListener, MouseListener, KeyList
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        if (MyPanel.onscreen & MyPanel.isrunning) {
-            MyPanel.joueur1.setCoord_joueur( e.getPoint());
+        if (MyPanel.onscreen & Game.isIsrunning()) {
+            Game.joueur1.setCoord_joueur( e.getPoint());
         }
     }
     @Override

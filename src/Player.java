@@ -13,7 +13,7 @@ public class Player {
     private Point coord_explosion;
     private int nbr_vie;
     private double index_image_explosion;
-    private  BufferedImage[] image_explosion;
+    private BufferedImage[] image_explosion;
     //private static ArrayList<Sprite> myBullets;
 
     public Player() {
@@ -79,28 +79,28 @@ public class Player {
 
     public void TestColision() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
 
-        for (int j = 0; j < MyPanel.myBulletsE.size(); j++) {
-            if ((  MyPanel.myBulletsE.get(j).getSpriteY() ) > MyPanel.screen_height - 100 &
-                    (Math.abs(MyPanel.myBulletsE.get(j).getSpriteX() - coord_joueur.x)) < 50) {
-                setCoord_explosion(new Point(MyPanel.myBulletsE.get(j).getSpriteX(), MyPanel.myBulletsE.get(j).getSpriteY()));
+        for (int j = MyPanel.myBulletsE.size() - 1; j >=0; j--) {
+            if ((  MyPanel.myBulletsE.get(j).getCoordY() ) > MyPanel.screen_height - 100 &
+                    (Math.abs(MyPanel.myBulletsE.get(j).getCoordX() - coord_joueur.x)) < 50) {
+                setCoord_explosion(new Point(MyPanel.myBulletsE.get(j).getCoordX(), MyPanel.myBulletsE.get(j).getCoordY()));
                 MyPanel.myBulletsE.remove(j);
                 new Sound(MyPanel.boomW);
-                MyPanel.joueur1.setNbr_vie(MyPanel.joueur1.getNbr_vie() - 1);
-                if (MyPanel.joueur1.getNbr_vie() == 0) {
-                    MyPanel.endgame = true;
+                Game.joueur1.setNbr_vie(Game.joueur1.getNbr_vie() - 1);
+                if (Game.joueur1.getNbr_vie() == 0) {
+                    Game.setEndgame(true);
                 }
-                MyPanel.joueur1.setJoueurvisible(false);
+                Game.joueur1.setJoueurvisible(false);
                 break;
             }
         }
-
     }
+
     public void UpdateExplosion() {
 
-            MyPanel.joueur1.setIndex_image_explosion( (MyPanel.joueur1.getIndex_image_explosion() + 0.5));
-            if (MyPanel.joueur1.getIndex_image_explosion() == 11) {
-                MyPanel.joueur1.setJoueurvisible(true);
-                MyPanel.joueur1.setIndex_image_explosion(0);
+        Game.joueur1.setIndex_image_explosion( (Game.joueur1.getIndex_image_explosion() + 0.5));
+            if (Game.joueur1.getIndex_image_explosion() == 11) {
+                Game.joueur1.setJoueurvisible(true);
+                Game.joueur1.setIndex_image_explosion(0);
             }
     }
 }
